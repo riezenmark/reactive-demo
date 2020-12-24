@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalizator</title>
+    <script>
+        var token;
+    </script>
+</head>
+<body>
+<form
+        onsubmit="
+    var payload = {
+        method: 'post',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        },
+        body: `username=${this.username.value}&password=${this.password.value}`
+    };
+    fetch('/login', payload).then(resp => resp.text()).then(t => token = t);
+    return false;
+"
+>
+    <label>
+        <input type="text" name="username">
+    </label>
+    <label>
+        <input type="password" name="password">
+    </label>
+    <input type="submit" value="Sign in">
+</form>
+
+<input type="button" value="message" onclick="
+fetch(
+    '/message',
+    {
+        method: 'get',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }
+).then(resp => resp.json()).then(console.log)
+">
+</body>
+</html>
